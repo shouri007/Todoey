@@ -10,9 +10,14 @@ import UIKit
 
 class ToDoViewController: UITableViewController {
     
-    var items : [String] = ["Car","Bike","Scooter"]
+    var items : [String] = []
+    var userDefualts = UserDefaults()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let arr = userDefualts.value(forKey: "ToDoItems") as? [String]{
+            items = arr
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -41,6 +46,7 @@ class ToDoViewController: UITableViewController {
         let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             self.items.append(newItemText.text!)
+            self.userDefualts.set(items, forKey: "ToDoItems")
             self.tableView.reloadData()
         }
         
